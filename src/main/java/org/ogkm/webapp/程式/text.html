@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+
+    $(document).ready(init);
+
+    function init() {
+
+        var audition = $("#audition");
+        var audioPLAYER = $("#audioPLAYER")[0];
+     
+        $("#playBtn").click(PlayPauseHandler);
+        $("#volumerange").click(volumeUpDownHandler);
+        $("#volumeBtn").click(volumeMuted);
+        $("#audioPLAYER").on("timeupdate", timeUpdateHandler);
+        $("#audioPLAYER").on("play", startendedPlayHandler);
+        $("#audioPLAYER").on("pause", startendedPlayHandler);
+        $("#audioPLAYER").on("ended", startendedPlayHandler);
+    }
+    function PlayPauseHandler() {
+        // audition.play();
+        if ((audioPLAYER.paused)) {
+            alert("播放");
+            audioPLAYER.currentTime = 0
+            audioPLAYER.play();
+        } else {
+            alert("暫停");
+            audioPLAYER.readyState;
+            audioPLAYER.pause();
+        }
+
+    }
+    function volumeMuted() {
+        alert("靜音");
+        audioPLAYER.muted = true;
+        $("#volumerange").val(0);
+    }
+
+
+    function startendedPlayHandler() {
+        alert("歌名");
+        $("#playAudioTime").text("歌名");
+    }
+
+
+    function timeUpdateHandler() {
+        $("#playAudioTime").html(timeConvert(audioPLAYER.currentTime) + " / " + timeConvert(audioPLAYER.duration));
+    }
+    function timeConvert(time) {
+        var mins = parseInt(time / 60);
+        var secs = parseInt(time % 60);
+        if (secs < 10) secs = "0" + secs;
+        return mins + ":" + secs;
+    }
+
+    function volumeUpDownHandler() {
+        alert($("#volumerange").val());
+        var volumesound = $(this).val(); 
+        if (volumesound != 0) {
+            audioPLAYER.muted = false;  
+             volumesound /= 100;
+        }
+       
+        audioPLAYER.volume = volumesound;
+      //  audition.volume = volumesound;
+    }
+
+
+
+
+</script>
+
+<body>
+
+    <div id="audition" src="">
+        <a id="playBtn">play</a>
+        <div id="playAudioTime">歌名</div>
+        <a id="volumeBtn">靜音</a>
+        <input id="volumerange" type="range" id="seek" value="50" minlength="0" maxlength="100">
+
+    </div>
+    <audio controls id="audioPLAYER" src="../MP3/みっころね×しょうたいむ!!.mp3" type="audio/mpeg"> </audio>
+
+
+    <style>
+        #playBtn {
+            background: url();
+        }
+
+        #playAudioTime {
+            display: flex;
+            justify-content: space-evenly;
+            width: 12.5em;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        #audition {
+            display: flex;
+            justify-content: space-evenly;
+
+        }
+
+        #volumerange {
+            width: 5em;
+        }
+    </style>
+
+
+
+
+</body>

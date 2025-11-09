@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<style >
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#outer{
+				width: 50em;
+				height: 21em;
+				margin: 3.2em auto;
+				position: relative;
+				overflow: hidden;
+			}
+			#imgList{
+				list-style: none;
+				position: absolute;
+				left: 0px;
+			}
+			#imgList>li{
+				float: left;
+			}
+			#imgList>li>img{
+				width: 50em;
+				height: 21em;
+			}
+			#navContainer{
+				position: absolute;
+				bottom: 15px;
+			}
+			
+			#navContainer>a{
+				z-index: 5;
+				float: left;
+				width: 15px;
+				height: 15px;
+				background-color: rgb(230, 230, 230);
+				margin: 0 5px;
+				opacity: 0.5;
+				filter: alpha(opacity=50);
+				border-radius: 100%;
+			}
+			#navContainer>a:hover{
+				background-color: rgb(0, 0, 0);
+			}
+			#picLbtn, #picRbtn{
+				position: absolute;
+			}
+			#picLbtn{
+				left: 8px;
+			}
+			#picRbtn{
+				right: 8px;
+			}
+		</style>
+		<script>
+			window.onload = function(){
+				var imgList = document.getElementById("imgList");
+				var navContainer = document.getElementById("navContainer");
+				var outer = document.getElementById("outer");
+				var picLbtn = document.getElementById("picLbtn");
+				var picRbtn = document.getElementById("picRbtn");
+				var imgArr = document.querySelectorAll("#imgList>li>img");
+				/*設置按鈕居中*/
+				navContainer.style.left = (outer.offsetWidth - navContainer.offsetWidth)/2 + "px";
+				var tempBtnTop = (outer.offsetHeight - picLbtn.offsetHeight)/2 + "px";
+				picLbtn.style.top = tempBtnTop;
+				picRbtn.style.top = tempBtnTop;
+				//-- 獲取元素樣式，最低兼容ie8
+				function getStyle(obj, name) {
+					if(window.getComputedStyle) {
+						return getComputedStyle(obj, null)[name];
+					} else {
+						return obj.currentStyle[name];
+					}
+				}
+				//-- 獲取outer的寬度
+				var getOuterWidth = getStyle(outer,"width");
+				var widthObject = getOuterWidth.match(/\d*/);
+				var width = widthObject[0];
+				//-- 根據圖片的數量設置ul的總寬度
+				imgList.style.width = width*imgArr.length+"px";
+				function move(obj, attr, target, speed, callback){
+					clearInterval(obj.timer);
+					var current = parseInt(getStyle(obj, attr));
+					if(current > target) {
+						speed = -speed;
+					}
+					obj.timer = setInterval(function(){
+						var oldValue = parseInt(getStyle(obj, attr));
+						var newValue = oldValue + speed;
+						if((speed < 0 && newValue < target) || (speed > 0 && newValue > target)) {
+							newValue = target;
+						}
+						obj.style[attr] = newValue + "px";
+						if(newValue == target) {
+							clearInterval(obj.timer);
+							callback && callback();
+						}
+					}, 5);
+				}
+				//設置默認選中的效果
+				var index = 0;
+				var allA = document.querySelectorAll("#navContainer>a");
+				allA[index].style.backgroundColor = "black";
+				//-- 正常開啟自動切換函數
+				autoChange();
+				function setA(){
+					if(index >= imgArr.length - 1){
+						index = 0;
+						imgList.style.left = 0;
+					}
+				}
+				function setRed(){
+					for(var i=0 ; i<allA.length ; i++){
+						allA[i].style.backgroundColor = "";
+					}
+					allA[index].style.backgroundColor = "black";
+				}
+				var timer;
+				//--自動切換圖片
+				function autoChange(){
+					timer = setInterval(function(){
+						index++;
+						index %= imgArr.length;
+						move(imgList , "left" , -width*index , 20 , function(){
+							setA();
+							setRed();
+						});
+					},3000);
+				}
+				//--實現點擊導航點切換圖片
+				//--調用setA、move、autochange函數
+				for(var i=0; i<allA.length ; i++){
+					allA[i].num = i;
+					allA[i].onclick = function(){
+						clearInterval(timer);
+						index = this.num;
+						setRed();
+						move(imgList , "left" , -width*index , 20 , function(){
+							autoChange();
+						});
+					}
+				picLbtn.onclick = function(){
+					clearInterval(timer);
+					if (index != 0){
+						index = index-1;
+					}
+					setRed();
+					move(imgList , "left" , -width*index , 20 , function(){
+						autoChange();
+					});
+				}
+				picRbtn.onclick = function(){
+					clearInterval(timer);
+						if (index != allA.length - 1) {
+							index = index+1;
+						}
+						setRed();
+						move(imgList , "left" , -width*index , 20 , function(){
+							autoChange();
+						});
+					}
+				}
+				var startX = 0;
+				var moveX = 0;
+				var distanceX = 0;
+				var isMove = false;
+				outer.addEventListener('touchstart', function(e){
+        			clearInterval(timer); //--清除定時器,要記得事件結束之后再打開
+        			startX = e.touches[0].clientX;  //--觸摸點的橫坐標
+   				});
+				outer.addEventListener('touchmove',function(e){
+	        		moveX = e.touches[0].clientX;//--獲取當前手的橫坐標
+	        		distanceX = moveX - startX; //--移動的距離=現在-初始
+	        		isMove = true;//證明滑動過
+					move(imgList , "left" , -width*index+distanceX , 20 , function(){});
+	    		});
+				outer.addEventListener('touchend', function(){
+	        		if(isMove && Math.abs(distanceX) > width/3){
+	            		if(distanceX > 0 && index != 0){
+	                		index = index - 1;
+	        			}
+	        			else if(distanceX < 0 && index != imgArr.length - 2){
+	            			index = index + 1;
+	        			}
+	        			move(imgList , "left" , -width*index, 20 , function(){});
+	        		}
+	        		else if(isMove && Math.abs(distanceX) < width/3){
+	        			move(imgList , "left" , -width*index, 20 , function(){});
+	        		}
+	        		setRed();
+	        		autoChange();
+	    		});
+			}
+		</script>
+	</head>
+	<body>
+		<div id="outer">
+			<ul id="imgList">
+			<li><img src="images/ads/1.png" /></li>
+            <li><img src="images/ads/2.png" /></li>
+            <li><img src="images/ads/3.png" /></li>
+            <li><img src="images/ads/1.png" /></li>
+            <li><img src="images/ads/2.png" /></li>
+            <li><img src="images/ads/3.png" /></li>
+			</ul>
+			<div id="navContainer">
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+				<a href="javascript:;"></a>
+			</div>
+            <a href="javascript:;" id="picLbtn">&#8249</a>
+			<a href="javascript:;" id="picRbtn">&#8250</a>
+		</div>
+	</body>
+</html>
