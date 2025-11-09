@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <nav class="header">
+        <!--LOGO-->
+        <div class="logo">
+            <a href="./"><img src=""></a>
+        </div>
+        <!--LOGO/-->
+        
+        <!--選單-->
+        <div id="#menu">
+            <ul class="menu">
+                <li><a href="./"><i class="fas fa-home"></i>
+                        <p>首頁</p>
+                    </a></li>
+                <li><a href=""><i class="fas fa-headphones-alt"></i>
+                        <p>商店</p>
+                    </a></li>
+                <li><a href=""><i class="fas fa-edit"></i>
+                        <p>註冊</p>
+                    </a></li>
+                    <!--未登入出現-->
+                    
+                <li><a href=""><i class="fas fa-sign-in-alt"></i>
+                        <p>登入</p> 
+                    </a></li>
+                    <!--登入出現-->
+                  
+                     <li><a href=""><i class="fas fa-sign-out-alt"></i>
+                        <p>登出</p> 
+                    </a></li>
+                   
+                <li><a href=”#”><i class="fas fa-user"></i>
+                        <p class="username">用戶</p>
+                    </a></li>
+                    <!--登入出現-->
+                   
+                <li><a href=”#”><i class="fas fa-cart-arrow-down"></i>
+                        <p>購物車</p>
+                    </a></li>
+                  
+                <li class="lastli"><a href="index.html#ABUS"><i class="fas fa-exclamation-circle"></i>
+                        <p>關於</p>
+                    </a></li>
+                <a href="#" class="burgerclose" >&#10005;</a>
+            </ul>
+            <!--漢堡-->
+            <a href="#" class="burger ">&#9776;</a>
+        </div>
+    </nav>
+    <h2></h2>
+    <style>
+        body {
+            margin: 0;
+	border: 0;
+	padding: 0;
+            height: 10000px;
+        }
+
+        h2 {
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: white;
+        }
+        .header {
+	/*header 設定成 menu 選單的相對定位父元素*/
+	width: 100%;
+	background: linear-gradient(0deg, #798c99 35%, #26262c 60%);
+	background: -moz-linear-gradient(45deg, #8BC0E3 35%, #5247CF 60%);
+	/*moz代表firefox*/
+	background: -webkit-linear-gradient(0deg, #798c99 35%, #26262c 60%);
+	/*webkit代表chrome*/
+	background: -o-linear-gradient(45deg, #8BC0E3 35%, #5247CF 60%);
+	/*o代表opera*/
+	height: 3.2em;
+	/* border-bottom: 3px solid rgb(6, 151, 247);*/
+	/*導覽列底線顏色*/
+	position: fixed;
+	/*box-shadow:1px 1px 10px #000;/*陰影效果*/
+	z-index: 500;
+}
+
+/*選單*/
+.menu {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	margin: 0px;
+	padding: 0px;
+}
+
+.menu li {
+	float: left;
+	width: 3.5em;
+	list-style: none;
+	/* 移除項目符號 */
+}
+
+.menu li a {
+	display: block;
+	color: #40dfd7;
+	/*選單文字顏色*/
+	text-decoration: none;
+	padding: 0.9em 0em 0.3em 0em;
+	text-align: center;
+	/*文字置中*/
+}
+
+.menu li a:hover {
+	background: linear-gradient(180deg, #5247CF 30%, #8BC0E3 60%);
+	background: radial-gradient(circle at top, #5247CF 50%, #528fe4 70%, #8BC0E3 80%);
+	border-radius: 0px 0px 10px 10px;
+	-webkit-border-radius: 0px 0px 10px 10px;
+	-moz-border-radius: 0px 0px 10px 10px;
+	color: #fff;
+}
+
+.menu li a p {
+	margin: 0px 0px;
+}
+
+.menu .lastli {
+	border: none;
+}
+
+.username {
+	overflow: hidden;
+}
+/*漢堡選單*/
+.burger {
+	display: none;
+	/*在PC上隱藏漢堡選單*/
+	color: #ffffff;
+}
+
+.burgerclose {
+	display: none;
+	/*在PC上隱藏漢堡選單*/
+	color: #e94040;
+}
+    </style>
+    <script>
+        /*
+        $(window).scroll(function () {
+            alert('123');
+        });
+        */
+        $(window).scroll(function () {
+            var scrollTop = $(window).scrollTop();
+            var r = 0;
+            var g = 0;
+            var b = 0;
+            var n = 2000;
+            var r1 = 30;
+            var g1 = 30;
+            var b1 = 30;
+            var d = 0;
+            for (scrollTop; scrollTop > n; n += 400) {
+
+                if (scrollTop > n) {
+                    d += 20;
+                    r += 20;
+                    g += 20;
+                    b += 20;
+                    r1 += 20;
+                    g1 += 20;
+                    b1 += 20;
+                    if (r > 255 || g > 255 || b > 255) {
+                        r = 20;
+                        g = 20;
+                        b = 20;
+                    }
+                    if (r1 > 255 || g1 > 255 || b1 > 255) {
+                        r1 = 50;
+                        g1 = 50;
+                        b1 = 50;
+                    }
+                    $('.header').css('background', 
+                    'linear-gradient(' + d + 'deg, rgb(' + r + ',' + g + ',' + b + ')30%, rgb(' 
+                    + r1 + ',' + g1 + ',' + b1 + ')60%');
+                }
+            }
+            /* if (scrollTop > 3000) {
+          
+                 $('body').css('background','linear-gradient(45deg, rgb(' + r + ',' + g + ',' + b + '), rgb(' + r + ',' + g + ',' + b + ')');
+             }
+             if (scrollTop > 6000) {
+                 r += 50;
+                 g += 50;
+                 b += 50;
+                 $('body').css('background','linear-gradient(180deg, rgb(50,50,50), rgb(100,100,100)');
+             }*/
+
+            $('h2').text('scrollTop : ' + scrollTop + 'linear-gradient(' + d + 'deg, rgb(' + r + ',' + g + ',' + b + '), rgb(' + r1 + ',' + g1 + ',' + b1 + ')');
+
+        });
+
+    </script>
+</body>
+
+</html>
