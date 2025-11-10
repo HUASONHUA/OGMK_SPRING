@@ -9,9 +9,9 @@ public class IndexController {
   @Value("${spring.mvc.view.prefix}")
   private String prefix;
 
-  @GetMapping("/")
+  @GetMapping({"/", "/index"})
   public String index() {
-    System.out.println("IndexController 被呼叫了!");
+//    System.out.println("IndexController 被呼叫了!");
     return "index";
   }
 

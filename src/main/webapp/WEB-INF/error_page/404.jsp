@@ -12,7 +12,7 @@
 		<jsp:param value="" name=""/>
 	</jsp:include>
 	<div class="e404bag">
-	<h1>找不到網頁<%=request.getAttribute("jakarta.servlet.error.request_uri") %></h1>
+	<h1>找不到網頁</h1>
 	<img class="e404" src="<%=request.getContextPath() %>/images/404.jpg">
 	</div>
 	<style>
