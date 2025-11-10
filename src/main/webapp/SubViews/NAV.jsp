@@ -29,7 +29,7 @@
 		<!--選單-->
 		<div id="#menu">
 			<ul class="menu">
-				<form class="searchbag" action="/OGKM/store.jsp" method="GET">
+				<form class="searchbag" action="<%=request.getContextPath()%>/store.jsp" method="GET">
 					<input type="search" name="keyword" placeholder="SEARCH"
 						value="${param.keyword != null ? param.keyword : ''}">
 					<input type="hidden" name="page" value="1">
