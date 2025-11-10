@@ -18,7 +18,9 @@
 	<nav class="header">
 		<!--LOGO-->
 		<div class="logo">
-			<a href="<%=request.getContextPath()%>"><img src="<%=request.getContextPath()%>/images/LOGO.png"></a>
+			<a href="<%=request.getContextPath()%>/index.jsp">
+			  <img src="<%=request.getContextPath()%>/images/LOGO.png">
+			</a>
 		</div>
 		<!--LOGO/-->
 		<%
@@ -33,7 +35,7 @@
 					<input type="hidden" name="page" value="1">
           <input type="submit" value="搜尋">
 				</form>
-				<li><a href="<%=request.getContextPath()%>">
+				<li><a href="<%=request.getContextPath()%>/index.jsp">
 				    <i class="fas fa-home"></i>
             <p>首頁</p> </a></li>
         <% if (member != null) {
